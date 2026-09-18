@@ -1,378 +1,148 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>HOME</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<title>pisces-pisces // cosmic portal</title>
 
-    body {
-      font-family: "Courier New", monospace;
-      color: #f5f5ff;
-      background: #000010;
-      /* 背景は適当な宇宙画像URLに差し替え */
-      background-image: url("https://example.com/your-space-vaporwave-bg.jpg");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      text-shadow: 0 0 4px #000;
-    }
+<style>
+  body {
+    font-family: "MS PGothic", "Courier New", monospace;
+    background-image: url("https://example.com/space-vaporwave-bg.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    color: #ffffff;
+    text-shadow: 0 0 3px #000;
+  }
 
-    .scanline {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image: linear-gradient(
-        rgba(255,255,255,0.04) 1px,
-        rgba(0,0,0,0) 1px
-      );
-      background-size: 100% 2px;
-      mix-blend-mode: screen;
-      opacity: 0.4;
-      z-index: 999;
-    }
+  /* 2000年代の謎の枠 */
+  .wrapper {
+    width: 900px;
+    margin: 20px auto;
+    border: 3px double #ccf;
+    background: rgba(0,0,40,0.7);
+    padding: 20px;
+    box-shadow: 0 0 20px #f0f;
+  }
 
-    .crt {
-      position: relative;
-      min-height: 100vh;
-      padding: 24px;
-      backdrop-filter: blur(3px);
-    }
+  /* タイトルロゴ（謎の発光＋GIFっぽい） */
+  .logo {
+    font-size: 32px;
+    text-align: center;
+    color: #ffccff;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px #ff00ff, 0 0 12px #00ffff;
+  }
 
-    .crt::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border: 2px solid rgba(255,255,255,0.2);
-      box-shadow:
-        0 0 20px rgba(255,0,255,0.4),
-        inset 0 0 40px rgba(0,255,255,0.2);
-      pointer-events: none;
-    }
+  .sub {
+    text-align: center;
+    font-size: 12px;
+    color: #c0ffe0;
+    margin-bottom: 20px;
+  }
 
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-      position: relative;
-      z-index: 1;
-    }
+  /* 2000年代の謎ボタン */
+  .nav {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .nav a {
+    display: inline-block;
+    padding: 4px 12px;
+    margin: 0 4px;
+    background: linear-gradient(#fff, #ccf);
+    border: 2px outset #eef;
+    color: #003;
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .nav a:active {
+    border-style: inset;
+  }
 
-    .logo {
-      font-size: 2.4rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #ff9dfc;
-      text-shadow:
-        0 0 8px #ff00ff,
-        0 0 16px #00ffff;
-    }
+  /* ポータル枠 */
+  .portal-box {
+    border: 2px solid #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: rgba(10,0,40,0.6);
+  }
 
-    .subtitle {
-      margin-top: 8px;
-      font-size: 0.9rem;
-      color: #c0ffe0;
-      opacity: 0.8;
-    }
+  .portal-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #ffddff;
+  }
 
-    .glitch {
-      position: relative;
-      display: inline-block;
-    }
+  .portal-item {
+    border: 1px solid #99f;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(0,0,0,0.4);
+  }
 
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      top: 0;
-      mix-blend-mode: screen;
-      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
-    }
+  .portal-item h3 {
+    margin: 0 0 4px 0;
+    color: #ffe0ff;
+  }
 
-    .glitch::before {
-      color: #00ffff;
-      transform: translate(-2px, -1px);
-    }
+  .portal-item p {
+    font-size: 12px;
+    line-height: 1.4;
+  }
 
-    .glitch::after {
-      color: #ff00ff;
-      transform: translate(2px, 1px);
-      clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-    }
-
-    .portal-wrapper {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .portal {
-      background: rgba(5, 0, 30, 0.8);
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow:
-        0 0 20px rgba(255,0,255,0.4),
-        0 0 40px rgba(0,255,255,0.2);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .portal::before {
-      content: "ACCESSING PORTAL...";
-      position: absolute;
-      top: 6px;
-      right: 10px;
-      font-size: 0.7rem;
-      color: #00ffff;
-      opacity: 0.7;
-    }
-
-    .portal-title {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      color: #ffddff;
-    }
-
-    .portal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-    }
-
-    .portal-card {
-      background: radial-gradient(circle at top left,
-        rgba(255,0,255,0.4),
-        rgba(0,0,0,0.9)
-      );
-      border: 1px solid rgba(255,255,255,0.3);
-      padding: 10px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
-    }
-
-    .portal-card:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow:
-        0 0 12px rgba(255,0,255,0.7),
-        0 0 24px rgba(0,255,255,0.5);
-    }
-
-    .portal-card::before {
-      content: "???";
-      position: absolute;
-      top: -4px;
-      left: 6px;
-      font-size: 0.6rem;
-      color: #00ffff;
-      opacity: 0.6;
-    }
-
-    .portal-card-title {
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-      color: #ffe0ff;
-    }
-
-    .portal-card-meta {
-      font-size: 0.7rem;
-      color: #a0ffd0;
-      opacity: 0.8;
-    }
-
-    .portal-card-desc {
-      margin-top: 6px;
-      font-size: 0.75rem;
-      color: #f0f0ff;
-      opacity: 0.9;
-      line-height: 1.4;
-    }
-
-    .sidebar {
-      background: rgba(10, 0, 40, 0.85);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 16px;
-      position: relative;
-    }
-
-    .sidebar-title {
-      font-size: 0.95rem;
-      margin-bottom: 10px;
-      color: #ffbdfc;
-    }
-
-    .sidebar-list {
-      list-style: none;
-      font-size: 0.75rem;
-    }
-
-    .sidebar-list li {
-      margin-bottom: 6px;
-      position: relative;
-      padding-left: 14px;
-    }
-
-    .sidebar-list li::before {
-      content: "★";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #00ffff;
-      font-size: 0.7rem;
-    }
-
-    .sidebar-note {
-      margin-top: 12px;
-      font-size: 0.7rem;
-      color: #c0ffe0;
-      opacity: 0.8;
-    }
-
-    .footer {
-      margin-top: 32px;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #a0a0ff;
-      opacity: 0.7;
-      position: relative;
-      z-index: 1;
-    }
-
-    .footer span {
-      display: inline-block;
-      margin: 0 4px;
-    }
-
-    .footer span:nth-child(odd) {
-      color: #ff00ff;
-    }
-
-    .footer span:nth-child(even) {
-      color: #00ffff;
-    }
-
-    /* 一昔前のネットっぽいボタン */
-    .old-web-bar {
-      margin-top: 16px;
-      text-align: center;
-    }
-
-    .old-web-button {
-      display: inline-block;
-      margin: 0 4px;
-      padding: 4px 10px;
-      border: 2px outset #ccccff;
-      background: linear-gradient(#fdfdff, #c0c0ff);
-      color: #000040;
-      font-size: 0.7rem;
-      text-decoration: none;
-      box-shadow: 0 0 0 1px #000;
-    }
-
-    .old-web-button:active {
-      border-style: inset;
-      background: linear-gradient(#c0c0ff, #fdfdff);
-    }
-
-    @media (max-width: 768px) {
-      .portal-wrapper {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  /* フッター */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #a0a0ff;
+    margin-top: 20px;
+  }
+</style>
 </head>
+
 <body>
-  <div class="scanline"></div>
+<div class="wrapper">
 
-  <div class="crt">
-    <header class="header">
-      <div class="logo glitch" data-text="COSMIC VAPOR PORTAL">
-        COSMIC VAPOR PORTAL
-      </div>
-      <div class="subtitle">
-        何を開くかは、開いてから考えるタイプの謎解きサイト。
-      </div>
-      <div class="old-web-bar">
-        <a href="#" class="old-web-button">HOME</a>
-        <a href="#" class="old-web-button">PORTALS</a>
-        <a href="#" class="old-web-button">???</a>
-        <a href="#" class="old-web-button">HELP(?)</a>
-      </div>
-    </header>
+  <div class="logo">pisces-pisces</div>
+  <div class="sub">2000年代の宇宙系謎ポータルサイト（意味は後から考える）</div>
 
-    <main class="portal-wrapper">
-      <section class="portal">
-        <h2 class="portal-title">PORTAL INDEX // 不明な入口一覧</h2>
-        <div class="portal-grid">
-          <article class="portal-card">
-            <h3 class="portal-card-title">Nebula-404</h3>
-            <div class="portal-card-meta">難易度：??? / ジャンル：宇宙バグ</div>
-            <p class="portal-card-desc">
-              ページのどこかにだけ正しいリンクが存在するらしい。<br>
-              ただし「正しい」の定義は、まだ決まっていない。
-            </p>
-          </article>
-
-          <article class="portal-card">
-            <h3 class="portal-card-title">Vaporwave Observatory</h3>
-            <div class="portal-card-meta">難易度：ゆるい / ジャンル：雰囲気</div>
-            <p class="portal-card-desc">
-              眺めているだけで、何かを解いた気分になれる観測所。<br>
-              実際に解けているかどうかは、誰も検証していない。
-            </p>
-          </article>
-
-          <article class="portal-card">
-            <h3 class="portal-card-title">Black Hole Chatroom</h3>
-            <div class="portal-card-meta">難易度：会話 / ジャンル：テキスト迷路</div>
-            <p class="portal-card-desc">
-              入室したメッセージが、必ずしも同じ形で出てくるとは限らない。<br>
-              ログを読むこと自体が謎解きになっているらしい。
-            </p>
-          </article>
-
-          <article class="portal-card">
-            <h3 class="portal-card-title">Retro Satellite Archive</h3>
-            <div class="portal-card-meta">難易度：アーカイブ / ジャンル：一昔前のネット</div>
-            <p class="portal-card-desc">
-              古いHTML片やバナー画像が、意味ありげに並んでいる倉庫。<br>
-              どこから手をつけるかは、あなたのノスタルジー次第。
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <aside class="sidebar">
-        <h2 class="sidebar-title">SYSTEM LOG // よく分からない注意書き</h2>
-        <ul class="sidebar-list">
-          <li>ポータルは、開くたびに少しだけ設定が変わることがあります。</li>
-          <li>「正解」が存在するかどうかは、ポータルごとに未定義です。</li>
-          <li>背景画像はインターネットのどこかから拾われています。</li>
-          <li>たまにリンクが過去のバナー広告に飛ぶことがあります。</li>
-        </ul>
-        <p class="sidebar-note">
-          ※ このページは、宇宙とvaporwaveと一昔前のネットの雰囲気だけを優先して設計されています。<br>
-          使いやすさは、後で考える予定です。（たぶん）
-        </p>
-      </aside>
-    </main>
-
-    <footer class="footer">
-      <span>&lt;UNDER CONSTRUCTION&gt;</span>
-      <span>//</span>
-      <span>© COSMIC VAPOR PUZZLE NETWORK</span>
-      <span>//</span>
-      <span>LAST UPDATE: UNKNOWN</span>
-    </footer>
+  <div class="nav">
+    <a href="#">HOME</a>
+    <a href="#">PORTALS</a>
+    <a href="#">BBS</a>
+    <a href="#">LINK</a>
+    <a href="#">ABOUT</a>
   </div>
+
+  <div class="portal-box">
+    <div class="portal-title">PORTAL INDEX // 不明な入口一覧</div>
+
+    <div class="portal-item">
+      <h3>Nebula-404</h3>
+      <p>正しいリンクが存在するらしいが、誰も正しさを定義していない。</p>
+    </div>
+
+    <div class="portal-item">
+      <h3>Vaporwave Observatory</h3>
+      <p>眺めるだけで謎を解いた気分になれる観測所。検証はされていない。</p>
+    </div>
+
+    <div class="portal-item">
+      <h3>Black Hole Chatroom</h3>
+      <p>入室したメッセージが同じ形で出てくるとは限らない。</p>
+    </div>
+
+    <div class="portal-item">
+      <h3>Retro Satellite Archive</h3>
+      <p>古いHTML片やバナー素材が意味ありげに並ぶ倉庫。</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    © pisces-pisces network // last update: unknown
+  </div>
+
+</div>
 </body>
 </html>
