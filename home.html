@@ -2,63 +2,377 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
-    <style>
-      h1 {
-        color: red;
-        font-size: 80px;
-        font-family: arial black;
+  <title>HOME</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Courier New", monospace;
+      color: #f5f5ff;
+      background: #000010;
+      /* 背景は適当な宇宙画像URLに差し替え */
+      background-image: url("https://example.com/your-space-vaporwave-bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      text-shadow: 0 0 4px #000;
+    }
+
+    .scanline {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(255,255,255,0.04) 1px,
+        rgba(0,0,0,0) 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: screen;
+      opacity: 0.4;
+      z-index: 999;
+    }
+
+    .crt {
+      position: relative;
+      min-height: 100vh;
+      padding: 24px;
+      backdrop-filter: blur(3px);
+    }
+
+    .crt::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow:
+        0 0 20px rgba(255,0,255,0.4),
+        inset 0 0 40px rgba(0,255,255,0.2);
+      pointer-events: none;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-size: 2.4rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #ff9dfc;
+      text-shadow:
+        0 0 8px #ff00ff,
+        0 0 16px #00ffff;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #c0ffe0;
+      opacity: 0.8;
+    }
+
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      mix-blend-mode: screen;
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+    }
+
+    .glitch::before {
+      color: #00ffff;
+      transform: translate(-2px, -1px);
+    }
+
+    .glitch::after {
+      color: #ff00ff;
+      transform: translate(2px, 1px);
+      clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+    }
+
+    .portal-wrapper {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .portal {
+      background: rgba(5, 0, 30, 0.8);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow:
+        0 0 20px rgba(255,0,255,0.4),
+        0 0 40px rgba(0,255,255,0.2);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portal::before {
+      content: "ACCESSING PORTAL...";
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      font-size: 0.7rem;
+      color: #00ffff;
+      opacity: 0.7;
+    }
+
+    .portal-title {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #ffddff;
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .portal-card {
+      background: radial-gradient(circle at top left,
+        rgba(255,0,255,0.4),
+        rgba(0,0,0,0.9)
+      );
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 0 12px rgba(255,0,255,0.7),
+        0 0 24px rgba(0,255,255,0.5);
+    }
+
+    .portal-card::before {
+      content: "???";
+      position: absolute;
+      top: -4px;
+      left: 6px;
+      font-size: 0.6rem;
+      color: #00ffff;
+      opacity: 0.6;
+    }
+
+    .portal-card-title {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: #ffe0ff;
+    }
+
+    .portal-card-meta {
+      font-size: 0.7rem;
+      color: #a0ffd0;
+      opacity: 0.8;
+    }
+
+    .portal-card-desc {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: #f0f0ff;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    .sidebar {
+      background: rgba(10, 0, 40, 0.85);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 16px;
+      position: relative;
+    }
+
+    .sidebar-title {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: #ffbdfc;
+    }
+
+    .sidebar-list {
+      list-style: none;
+      font-size: 0.75rem;
+    }
+
+    .sidebar-list li {
+      margin-bottom: 6px;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .sidebar-list li::before {
+      content: "★";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #00ffff;
+      font-size: 0.7rem;
+    }
+
+    .sidebar-note {
+      margin-top: 12px;
+      font-size: 0.7rem;
+      color: #c0ffe0;
+      opacity: 0.8;
+    }
+
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #a0a0ff;
+      opacity: 0.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer span {
+      display: inline-block;
+      margin: 0 4px;
+    }
+
+    .footer span:nth-child(odd) {
+      color: #ff00ff;
+    }
+
+    .footer span:nth-child(even) {
+      color: #00ffff;
+    }
+
+    /* 一昔前のネットっぽいボタン */
+    .old-web-bar {
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .old-web-button {
+      display: inline-block;
+      margin: 0 4px;
+      padding: 4px 10px;
+      border: 2px outset #ccccff;
+      background: linear-gradient(#fdfdff, #c0c0ff);
+      color: #000040;
+      font-size: 0.7rem;
+      text-decoration: none;
+      box-shadow: 0 0 0 1px #000;
+    }
+
+    .old-web-button:active {
+      border-style: inset;
+      background: linear-gradient(#c0c0ff, #fdfdff);
+    }
+
+    @media (max-width: 768px) {
+      .portal-wrapper {
+        grid-template-columns: 1fr;
       }
-        
-      .box img {
-        animation: rotation-3d 0.2s linear infinite;
-        width: 100px;
-        height: auto;
-        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-      }
-    
-      @keyframes rotation-3d {
-        0% {
-          transform: rotate3d(1,1,1,0deg);
-        }
-        100% {
-          transform: rotate3d(1,1,1,360deg);
-        }
-      }
-    
-      body {
-        background-image: url("https://usagif.com/wp-content/uploads/gif/outerspace-82.gif");
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
-    </style>
+    }
+  </style>
 </head>
 <body>
-  <div style="text-align: left;">
-    <h1>Hello World!</h1>
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
-    <img src="https://mam-mam.net/javascript/gif/img1/sablul128.gif">
+  <div class="scanline"></div>
+
+  <div class="crt">
+    <header class="header">
+      <div class="logo glitch" data-text="COSMIC VAPOR PORTAL">
+        COSMIC VAPOR PORTAL
+      </div>
+      <div class="subtitle">
+        何を開くかは、開いてから考えるタイプの謎解きサイト。
+      </div>
+      <div class="old-web-bar">
+        <a href="#" class="old-web-button">HOME</a>
+        <a href="#" class="old-web-button">PORTALS</a>
+        <a href="#" class="old-web-button">???</a>
+        <a href="#" class="old-web-button">HELP(?)</a>
+      </div>
+    </header>
+
+    <main class="portal-wrapper">
+      <section class="portal">
+        <h2 class="portal-title">PORTAL INDEX // 不明な入口一覧</h2>
+        <div class="portal-grid">
+          <article class="portal-card">
+            <h3 class="portal-card-title">Nebula-404</h3>
+            <div class="portal-card-meta">難易度：??? / ジャンル：宇宙バグ</div>
+            <p class="portal-card-desc">
+              ページのどこかにだけ正しいリンクが存在するらしい。<br>
+              ただし「正しい」の定義は、まだ決まっていない。
+            </p>
+          </article>
+
+          <article class="portal-card">
+            <h3 class="portal-card-title">Vaporwave Observatory</h3>
+            <div class="portal-card-meta">難易度：ゆるい / ジャンル：雰囲気</div>
+            <p class="portal-card-desc">
+              眺めているだけで、何かを解いた気分になれる観測所。<br>
+              実際に解けているかどうかは、誰も検証していない。
+            </p>
+          </article>
+
+          <article class="portal-card">
+            <h3 class="portal-card-title">Black Hole Chatroom</h3>
+            <div class="portal-card-meta">難易度：会話 / ジャンル：テキスト迷路</div>
+            <p class="portal-card-desc">
+              入室したメッセージが、必ずしも同じ形で出てくるとは限らない。<br>
+              ログを読むこと自体が謎解きになっているらしい。
+            </p>
+          </article>
+
+          <article class="portal-card">
+            <h3 class="portal-card-title">Retro Satellite Archive</h3>
+            <div class="portal-card-meta">難易度：アーカイブ / ジャンル：一昔前のネット</div>
+            <p class="portal-card-desc">
+              古いHTML片やバナー画像が、意味ありげに並んでいる倉庫。<br>
+              どこから手をつけるかは、あなたのノスタルジー次第。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <h2 class="sidebar-title">SYSTEM LOG // よく分からない注意書き</h2>
+        <ul class="sidebar-list">
+          <li>ポータルは、開くたびに少しだけ設定が変わることがあります。</li>
+          <li>「正解」が存在するかどうかは、ポータルごとに未定義です。</li>
+          <li>背景画像はインターネットのどこかから拾われています。</li>
+          <li>たまにリンクが過去のバナー広告に飛ぶことがあります。</li>
+        </ul>
+        <p class="sidebar-note">
+          ※ このページは、宇宙とvaporwaveと一昔前のネットの雰囲気だけを優先して設計されています。<br>
+          使いやすさは、後で考える予定です。（たぶん）
+        </p>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>&lt;UNDER CONSTRUCTION&gt;</span>
+      <span>//</span>
+      <span>© COSMIC VAPOR PUZZLE NETWORK</span>
+      <span>//</span>
+      <span>LAST UPDATE: UNKNOWN</span>
+    </footer>
   </div>
-  <div style="text-align: center;">
-    <img src="https://media1.tenor.com/images/bc2ec407a076aa4e940a80c4e5869cf1/tenor.gif?itemid=18740596" alt="" width="1500" height="100"><br>
-    <br>
-    <br>
-    <a href="moreandmore.html">
-      <img src="https://i.pinimg.com/originals/20/55/3e/20553ec0ad76a4ec12cad3625d0f3c17.jpg" alt="" width="100" height="auto"><br>
-    <a href="ordinaryspace.html">
-      <img src="utyu-hikoushi.png" alt="" width="100" height="auto">
-    </a>
-  </div>
-  <div class="box">
-    <img src="bre-za-mandayo.jpg" alt="">
-  </div>
-  <p>HELLO THERE!</p>
 </body>
 </html>
-    
