@@ -1,229 +1,204 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>pisces-pisces // cosmic vaporwave portal</title>
+  <meta charset="UTF-8">
+  <title>宇宙謎解きステーション</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: #ffffff;
+      background: radial-gradient(circle at top, #3f51b5 0, #000010 55%, #000000 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-<style>
-  body {
-    font-family: "MS PGothic", "Courier New", monospace;
-    background-image: url("space-bg.jpg"); /* 好きな宇宙画像に差し替え */
-    background-size: cover;
-    background-attachment: fixed;
-    color: #ffffff;
-    text-shadow: 0 0 3px #000;
-  }
+    .stars {
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 50% 80%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 20% 70%, rgba(255,255,255,0.5), transparent);
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  /* vaporwaveグリッド */
-  body::before {
-    content:"";
-    position:fixed;
-    inset:0;
-    background-image:
-      linear-gradient(#222 1px, transparent 1px),
-      linear-gradient(90deg, #222 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity:0.2;
-    pointer-events:none;
-  }
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 800px;
+      background: rgba(10, 10, 30, 0.85);
+      border-radius: 18px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      padding: 24px 28px 30px;
+      border: 1px solid rgba(120, 180, 255, 0.4);
+      backdrop-filter: blur(6px);
+    }
 
-  /* メイン枠 */
-  .wrapper {
-    width: 900px;
-    margin: 20px auto;
-    border: 3px double #ccf;
-    background: rgba(0,0,40,0.7);
-    padding: 20px;
-    box-shadow: 0 0 20px #f0f;
-  }
+    .title {
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 0.12em;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      color: #b3e5fc;
+    }
 
-  /* タイトル */
-  .logo {
-    font-size: 32px;
-    text-align: center;
-    color: #ffccff;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
-    text-shadow: 0 0 8px #ff00ff, 0 0 12px #00ffff;
-  }
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #e1f5fe;
+      margin-bottom: 20px;
+    }
 
-  .sub {
-    text-align: center;
-    font-size: 12px;
-    color: #c0ffe0;
-    margin-bottom: 20px;
-  }
+    .orbit-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #81d4fa, transparent);
+      margin: 12px 0 20px;
+    }
 
-  /* 2000年代ボタン */
-  .nav {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .nav a {
-    display: inline-block;
-    padding: 4px 12px;
-    margin: 0 4px;
-    background: linear-gradient(#fff, #ccf);
-    border: 2px outset #eef;
-    color: #003;
-    font-size: 12px;
-    text-decoration: none;
-  }
-  .nav a:active {
-    border-style: inset;
-  }
+    .puzzle-card {
+      background: rgba(20, 20, 50, 0.9);
+      border-radius: 14px;
+      padding: 18px 18px 20px;
+      border: 1px solid rgba(129, 212, 250, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
 
-  /* セクション枠 */
-  .section {
-    border: 2px solid #fff;
-    padding: 15px;
-    margin-bottom: 20px;
-    background: rgba(10,0,40,0.6);
-  }
+    .puzzle-card::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 1px dashed rgba(129, 212, 250, 0.35);
+      top: -80px;
+      right: -60px;
+    }
 
-  .section-title {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #ffddff;
-  }
+    .puzzle-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #90caf9;
+      margin-bottom: 6px;
+    }
 
-  /* BBS */
-  .bbs-post {
-    border: 1px solid #669;
-    padding: 8px;
-    margin-bottom: 8px;
-    background: #000040;
-  }
-  .bbs-meta {
-    font-size: 11px;
-    color: #a0a0ff;
-    margin-bottom: 4px;
-  }
-  .bbs-body {
-    font-size: 12px;
-    line-height: 1.4;
-  }
+    .puzzle-question {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
 
-  /* リンク集 */
-  .links-section h2 {
-    font-size: 14px;
-    margin-bottom: 4px;
-    color: #ffccff;
-  }
-  .links-section ul {
-    font-size: 12px;
-    list-style: none;
-    padding-left: 0;
-  }
-  .links-section li {
-    margin-bottom: 4px;
-  }
+    .hint {
+      font-size: 0.8rem;
+      color: #b0bec5;
+      margin-bottom: 12px;
+    }
 
-  /* 星アイコン */
-  .star {
-    color: #ffcc00;
-    margin-right: 4px;
-  }
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
 
-  /* フッター */
-  .footer {
-    text-align: center;
-    font-size: 11px;
-    color: #a0a0ff;
-    margin-top: 20px;
-  }
-</style>
+    input[type="text"] {
+      flex: 1;
+      min-width: 180px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(144, 202, 249, 0.7);
+      background: rgba(5, 5, 25, 0.9);
+      color: #ffffff;
+      outline: none;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"]::placeholder {
+      color: #78909c;
+    }
+
+    button {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #29b6f6, #7e57c2);
+      color: #ffffff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 0 12px rgba(41, 182, 246, 0.6);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(41, 182, 246, 0.9);
+      filter: brightness(1.05);
+    }
+
+    .result {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      min-height: 1.2em;
+    }
+
+    .result.ok {
+      color: #b2ff59;
+    }
+
+    .result.ng {
+      color: #ffab91;
+    }
+
+    .footer {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #b0bec5;
+    }
+
+    .footer span {
+      color: #81d4fa;
+    }
+  </style>
 </head>
-
 <body>
-<div class="wrapper">
+  <div class="stars"></div>
 
-  <!-- GIFバナー -->
-  <div style="text-align:center; margin:10px 0;">
-    <img src="welcome.gif" alt="WELCOME" width="300" height="60">
-  </div>
-
-  <div class="logo">pisces-pisces</div>
-  <div class="sub">2000年代 × 宇宙 × vaporwave × 個人サイトの謎ポータル</div>
-
-  <div style="text-align:center; margin:10px 0;">
-    <img src="under_construction.gif" alt="UNDER CONSTRUCTION" width="300" height="60">
-  </div>
-
-  <div class="nav">
-    <a href="#">HOME</a>
-    <a href="#">PORTALS</a>
-    <a href="#">BBS</a>
-    <a href="#">LINK</a>
-    <a href="#">ABOUT</a>
-  </div>
-
-  <!-- アクセスカウンター -->
-  <div style="text-align:right; font-family:'Courier New'; font-size:12px; color:#fff;">
-    VISITORS:
-    <span style="background:#000; padding:2px 4px; border:1px solid #666; color:#0f0;">
-      000123
-    </span>
-  </div>
-
-  <!-- キラキラGIF -->
-  <div style="text-align:center; margin:10px 0;">
-    <img src="sparkle.gif" alt="★" width="120" height="40">
-  </div>
-
-  <!-- BBS -->
-  <div class="section">
-    <div class="section-title">BBS // 宇宙チャットルーム</div>
-
-    <div class="bbs-post">
-      <div class="bbs-meta">No.1 名前：nebula　投稿日：20XX/02/29 25:61</div>
-      <div class="bbs-body">この掲示板、時間の概念がちょっとおかしい気がします。</div>
+  <div class="container">
+    <div class="title">宇宙謎解きステーション</div>
+    <div class="subtitle">
+      星々に散らばったヒントを集めて、<br>
+      ミッションコードを解読せよ。
     </div>
 
-    <div class="bbs-post">
-      <div class="bbs-meta">No.2 名前：satellite　投稿日：unknown</div>
-      <div class="bbs-body">ここに書き込むこと自体が謎解きらしいです。</div>
-    </div>
+    <div class="orbit-line"></div>
 
-    <form style="margin-top:10px; font-size:12px;">
-      名前：<input type="text" name="name" size="20"><br>
-      コメント：<br>
-      <textarea name="body" cols="60" rows="4"></textarea><br>
-      <input type="submit" value="書き込む（たぶん）">
-    </form>
-  </div>
+    <div class="puzzle-card">
+      <div class="puzzle-label">MISSION 01</div>
+      <div class="puzzle-question">
+        あなたは宇宙船「オリオン号」の航海士。<br>
+        次の3つの天体の頭文字を並べてできる“合言葉”を入力せよ。
+        <br><br>
+        ・地球の衛星として有名な天体<br>
+        ・太陽系で最も大きい惑星<br>
+        ・「土星」の英語名
+      </div>
 
-  <!-- リンク集 -->
-  <div class="section">
-    <div class="section-title">LINKS // リンク集</div>
+      <div class="hint">
+        ヒント：<br>
+        それぞれの英語名の頭文字をつなげると、3文字のコードになる。<br>
+        例）Mars, Venus, Earth → MVE（これは答えではない）
+      </div>
 
-    <div class="links-section">
-      <h2>◆ 個人サイト風リンク集</h2>
-      <ul>
-        <li><span class="star">★</span><a href="#" style="color:#c0ffe0;">星屑日記</a> - 宇宙っぽい日記サイト</li>
-        <li><span class="star">★</span><a href="#" style="color:#c0ffe0;">深夜0時の部屋</a> - テキスト系謎サイト</li>
-      </ul>
-    </div>
-
-    <div class="links-section">
-      <h2>◆ 素材屋リンク集</h2>
-      <ul>
-        <li><span class="star">★</span><a href="#" style="color:#ff9dfc;">★SPACE素材屋★</a> - 星アイコン・宇宙背景など</li>
-      </ul>
-    </div>
-
-    <div class="links-section">
-      <h2>◆ 宇宙系リンク集</h2>
-      <ul>
-        <li><span class="star">★</span><a href="#" style="color:#00ffff;">cosmic-lab</a> - 宇宙ネタまとめサイト</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer">
-    © pisces-pisces network // last update: unknown
-  </div>
-
-</div>
-</body>
-</html>
+      <div class="input-row">
