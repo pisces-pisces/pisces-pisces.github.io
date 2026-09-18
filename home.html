@@ -2,83 +2,162 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Vaporwave 1987</title>
+<title>Vaporwave VHS Win95</title>
 
 <style>
-/* ------------------------------
-   基本設定
------------------------------- */
+/* ============================================================
+   強いVaporwaveグラデーション背景（ゆらぐ）
+============================================================ */
 body {
   margin: 0;
   font-family: "Courier New", monospace;
-  background: linear-gradient(180deg, #ff00ff 0%, #6600ff 40%, #000033 100%);
+  background: linear-gradient(180deg, #ff00ff, #cc00ff, #6600ff, #3300ff);
+  background-size: 200% 200%;
+  animation: bgMove 10s ease infinite;
   color: #e0ffff;
-  overflow-x: hidden;
+  overflow: hidden;
 }
-
-/* VHSノイズ */
-.vhs-noise {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: url('https://upload.wikimedia.org/wikipedia/commons/3/3f/Static.gif');
-  opacity: 0.15;
-  mix-blend-mode: screen;
-  animation: noiseMove 0.3s steps(4) infinite;
-}
-
-@keyframes noiseMove {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-10px,5px); }
-  100% { transform: translate(0,0); }
-}
-
-/* スキャンライン（ブラウン管の横線） */
-.scanlines {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.05) 0px,
-    rgba(255,255,255,0.05) 2px,
-    transparent 3px,
-    transparent 4px
-  );
-  mix-blend-mode: overlay;
-}
-
-/* ゆらぐ背景グラデーション */
 @keyframes bgMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-body {
-  background-size: 200% 200%;
-  animation: bgMove 12s ease infinite;
+
+/* ============================================================
+   VHSノイズ（常時）
+============================================================ */
+.vhs-noise {
+  position: fixed;
+  inset: 0;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/3/3f/Static.gif');
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
-/* ネオンタイトル（ゆっくり揺れる） */
-header {
-  text-align: center;
-  padding: 80px 20px 20px;
+/* ============================================================
+   VHSトラッキングエラー（周期的に発生）
+============================================================ */
+.tracking-error {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.3) 0px,
+    rgba(255,255,255,0.3) 2px,
+    transparent 3px,
+    transparent 4px
+  );
+  opacity: 0;
+  animation: tracking 8s infinite;
+  pointer-events: none;
 }
+@keyframes tracking {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  21% { opacity: 0.8; transform: skewX(25deg); }
+  22% { opacity: 0; transform: skewX(0deg); }
+  100% { opacity: 0; }
+}
+
+/* ============================================================
+   CRT湾曲画面（丸み＋暗縁）
+============================================================ */
+.crt {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 40px;
+  box-shadow:
+    inset 0 0 80px rgba(0,0,0,0.8),
+    inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* ============================================================
+   Vaporwave彫刻（中央配置）
+============================================================ */
+.statue {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 280px;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
+  filter: drop-shadow(0 0 20px #ff00ff);
+}
+
+/* ============================================================
+   カセットテープ回転アニメーション
+============================================================ */
+.tape {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  width: 120px;
+  animation: spinTape 4s linear infinite;
+  filter: drop-shadow(0 0 10px #00ffff);
+}
+@keyframes spinTape {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   Windows95 エラーダイアログ
+============================================================ */
+.win95-error {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 260px;
+  background: #c0c0c0;
+  border: 3px solid #000;
+  box-shadow: 0 0 20px #000;
+}
+.win95-title {
+  background: #000080;
+  color: #fff;
+  padding: 6px;
+  font-weight: bold;
+}
+.win95-body {
+  padding: 15px;
+  background: #e0e0e0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+}
+.win95-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-top: 10px;
+  background: #dcdcdc;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  text-decoration: none;
+  color: #000;
+}
+.win95-btn:active {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* ============================================================
+   ネオンタイトル
+============================================================ */
 header h1 {
-  font-size: 4rem;
-  letter-spacing: 0.15em;
+  text-align: center;
+  font-size: 3.5rem;
   color: #ffccff;
   text-shadow:
     0 0 5px #ff00ff,
     0 0 15px #ff00ff,
-    0 0 30px #ff00ff,
-    0 0 60px #ff00ff;
+    0 0 30px #ff00ff;
   animation: float 3s ease-in-out infinite;
 }
 @keyframes float {
@@ -86,106 +165,35 @@ header h1 {
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
 }
-
-/* Vaporwaveグリッド床 */
-.grid {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40vh;
-  background-image:
-    linear-gradient(#00ffff55 1px, transparent 1px),
-    linear-gradient(90deg, #00ffff55 1px, transparent 1px);
-  background-size: 50px 50px;
-  transform: perspective(500px) rotateX(70deg);
-  opacity: 0.6;
-}
-
-/* カード */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-}
-.card {
-  background: rgba(0,0,0,0.5);
-  border: 1px solid #ff99ff;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow:
-    0 0 10px #ff00ff55,
-    0 0 25px #00ffff33;
-}
-
-/* ボタン */
-.btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 20px;
-  border: 1px solid #ff00ff;
-  color: #ff00ff;
-  text-decoration: none;
-  text-transform: uppercase;
-  background: rgba(0,0,0,0.7);
-  box-shadow:
-    0 0 8px #ff00ff88,
-    inset 0 0 8px #ff00ff55;
-  transition: 0.2s;
-}
-.btn:hover {
-  background: #ff00ff;
-  color: #000;
-  box-shadow:
-    0 0 20px #ff00ff,
-    0 0 40px #ff00ff;
-}
-
-/* フッター */
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #ccccff;
-  font-size: 0.8rem;
-}
 </style>
 </head>
 
 <body>
 
 <div class="vhs-noise"></div>
-<div class="scanlines"></div>
-<div class="grid"></div>
+<div class="tracking-error"></div>
+<div class="crt"></div>
 
 <header>
-  <h1>Vaporwave 1987</h1>
-  <p>永遠に終わらないピンクの夢。</p>
+  <h1>Vaporwave VHS Win95</h1>
 </header>
 
-<div class="container">
-  <section class="card">
-    <h2>About</h2>
-    <p>このサイトは、80年代のVHSノイズとVaporwaveの美学を融合したレトロフューチャー空間です。</p>
-    <a class="btn" href="#music">Music</a>
-  </section>
+<!-- Vaporwave彫刻 -->
+<img class="statue" src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Head_of_David_front.jpg">
 
-  <section class="card" id="music">
-    <h2>Music</h2>
-    <p>シンセ、リバーブ、チープな電子音。  
-       まるで壊れかけのカセットテープのような音が頭の中でループする。</p>
-    <a class="btn" href="#gallery">Gallery</a>
-  </section>
+<!-- カセットテープ -->
+<img class="tape" src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Cassette_tape.png">
 
-  <section class="card" id="gallery">
-    <h2>Gallery</h2>
-    <p>Vaporwave像、ネオン街、壊れたブラウン管、ピンクの空。  
-       好きな画像を追加して、あなたのVaporwave世界を完成させてください。</p>
-  </section>
+<!-- Windows95 エラーダイアログ -->
+<div class="win95-error">
+  <div class="win95-title">Error</div>
+  <div class="win95-body">
+    Vaporwave system has crashed.<br>
+    Please insert VHS tape and reboot.
+    <br><br>
+    <a class="win95-btn">OK</a>
+  </div>
 </div>
-
-<footer>
-  © 1987–2026 Vaporwave Dreams.
-</footer>
 
 </body>
 </html>
