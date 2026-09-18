@@ -2,29 +2,78 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Vaporwave VHS Win95 – Ultimate</title>
+<title>Vaporwave VHS Win95 – Infinite Grid</title>
 
 <style>
 /* ============================================================
-   強いVaporwaveグラデーション背景（ゆらぐ）
+   無限に広がるVaporwave背景
 ============================================================ */
 body {
   margin: 0;
   font-family: "Courier New", monospace;
-  background: linear-gradient(180deg, #ff00ff, #cc00ff, #6600ff, #3300ff);
-  background-size: 200% 200%;
-  animation: bgMove 10s ease infinite;
+  background: radial-gradient(circle at center,
+    #ff00ff 0%, #cc00ff 20%, #6600ff 50%, #3300ff 80%, #000010 100%);
+  background-size: 300% 300%;
+  animation: bgMove 20s ease-in-out infinite;
   color: #e0ffff;
   overflow: hidden;
 }
 @keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
 /* ============================================================
-   VHSノイズ＋トラッキングバー
+   無限グリッド床（Vaporwave）
+============================================================ */
+.grid-floor {
+  position: fixed;
+  bottom: -10vh;
+  left: 0;
+  width: 200%;
+  height: 60vh;
+  background-image:
+    linear-gradient(#00ffff55 1px, transparent 1px),
+    linear-gradient(90deg, #00ffff55 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(600px) rotateX(70deg);
+  transform-origin: top;
+  opacity: 0.7;
+  animation: gridMove 12s linear infinite;
+}
+@keyframes gridMove {
+  0% { transform: perspective(600px) rotateX(70deg) translateX(0); }
+  100% { transform: perspective(600px) rotateX(70deg) translateX(-200px); }
+}
+
+/* ============================================================
+   CRT走査線（縦横ライン）
+============================================================ */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.06) 0px,
+      rgba(255,255,255,0.06) 2px,
+      transparent 3px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 2px,
+      transparent 3px,
+      transparent 4px
+    );
+  mix-blend-mode: overlay;
+}
+
+/* ============================================================
+   VHSノイズ
 ============================================================ */
 .vhs-noise {
   position: fixed;
@@ -35,7 +84,34 @@ body {
   pointer-events: none;
 }
 
-/* トラッキングバー（画面下の白いバー） */
+/* ============================================================
+   VHS巻き戻し時の画面ゆがみ
+============================================================ */
+.rewind-distort {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: rewindWarp 10s infinite;
+}
+@keyframes rewindWarp {
+  0%   { opacity: 0; transform: translateX(0) skewX(0deg); }
+  40%  { opacity: 0; }
+  41%  { opacity: 0.8; transform: translateX(-20px) skewX(20deg); }
+  43%  { opacity: 0.4; transform: translateX(10px) skewX(-10deg); }
+  45%  { opacity: 0;   transform: translateX(0) skewX(0deg); }
+  100% { opacity: 0; }
+}
+
+/* ============================================================
+   VHSトラッキングバー
+============================================================ */
 .tracking-bar {
   position: fixed;
   left: 0;
@@ -57,32 +133,13 @@ body {
 }
 
 /* ============================================================
-   CRT湾曲画面（SVGマスク風）
-============================================================ */
-.crt-wrapper {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-.crt-mask {
-  width: 100%;
-  height: 100%;
-  border-radius: 60px;
-  box-shadow:
-    inset 0 0 80px rgba(0,0,0,0.9),
-    inset 0 0 30px rgba(0,0,0,0.6);
-  overflow: hidden;
-  transform: scale(1.02);
-}
-
-/* ============================================================
-   Vaporwave彫刻（左右にゆっくり揺れる）
+   Vaporwave彫刻（左右に揺れる）
 ============================================================ */
 .statue {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
-  width: 280px;
+  width: 260px;
   transform: translate(-50%, -50%);
   opacity: 0.9;
   filter: drop-shadow(0 0 20px #ff00ff);
@@ -99,7 +156,7 @@ body {
 ============================================================ */
 .tape {
   position: absolute;
-  bottom: 40px;
+  bottom: 60px;
   right: 40px;
   width: 160px;
   height: 100px;
@@ -134,59 +191,13 @@ body {
 }
 
 /* ============================================================
-   Windows95 スタートメニュー
+   Win95ウィンドウ（ドラッグ可能）
 ============================================================ */
-.taskbar {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 28px;
-  background: #c0c0c0;
-  border-top: 2px solid #fff;
-  border-left: 2px solid #fff;
-  border-right: 2px solid #808080;
-  border-bottom: 2px solid #808080;
-  display: flex;
-  align-items: center;
-}
-.start-btn {
-  margin-left: 4px;
-  padding: 4px 12px;
-  background: #dcdcdc;
-  border-top: 2px solid #fff;
-  border-left: 2px solid #fff;
-  border-right: 2px solid #808080;
-  border-bottom: 2px solid #808080;
-  font-size: 0.8rem;
-}
-.start-btn:active {
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-}
-
-/* スタートメニュー本体（簡易） */
-.start-menu {
-  position: fixed;
-  left: 4px;
-  bottom: 28px;
-  width: 180px;
-  background: #c0c0c0;
-  border: 2px solid #000;
-  padding: 6px;
-  font-size: 0.8rem;
-}
-
-/* ============================================================
-   Windows95 エラーダイアログ
-============================================================ */
-.win95-error {
+.win95-window {
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 260px;
+  width: 280px;
   background: #c0c0c0;
   border: 3px solid #000;
   box-shadow: 0 0 20px #000;
@@ -196,6 +207,7 @@ body {
   color: #fff;
   padding: 6px;
   font-weight: bold;
+  cursor: move;
 }
 .win95-body {
   padding: 15px;
@@ -225,6 +237,52 @@ body {
 }
 
 /* ============================================================
+   Win95タスクバー＋スタートメニュー（クリック開閉）
+============================================================ */
+.taskbar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 28px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  display: flex;
+  align-items: center;
+}
+.start-btn {
+  margin-left: 4px;
+  padding: 4px 12px;
+  background: #dcdcdc;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.start-btn:active {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+.start-menu {
+  position: fixed;
+  left: 4px;
+  bottom: 28px;
+  width: 180px;
+  background: #c0c0c0;
+  border: 2px solid #000;
+  padding: 6px;
+  font-size: 0.8rem;
+  display: none;
+}
+
+/* ============================================================
    ネオンタイトル
 ============================================================ */
 header h1 {
@@ -247,21 +305,20 @@ header h1 {
 
 <body>
 
-<!-- CRT湾曲マスク風ラッパー -->
-<div class="crt-wrapper">
-  <div class="crt-mask"></div>
-</div>
-
-<!-- VHSノイズ＋トラッキングバー -->
+<div class="grid-floor"></div>
+<div class="scanlines"></div>
 <div class="vhs-noise"></div>
+<div class="rewind-distort"></div>
 <div class="tracking-bar"></div>
 
 <header>
-  <h1>Vaporwave VHS Win95 – Ultimate</h1>
+  <h1>Vaporwave VHS Win95 – Infinite Grid</h1>
 </header>
 
-<!-- Vaporwave彫刻（中央） -->
-<img class="statue" src="https://assets-cdn.vam.ac.uk/2018/07/25/09/29/36/11ffdbfa-3ec1-489b-bafa-ef0e6fdce6b4/640.jpg">
+<!-- Vaporwave彫刻 -->
+<img class="statue"
+     src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Michelangelo%27s_David_%28replica%29.jpg/480px-Michelangelo%27s_David_%28replica%29.jpg"
+     alt="Vaporwave Statue">
 
 <!-- カセットテープ（リール回転） -->
 <div class="tape">
@@ -269,31 +326,61 @@ header h1 {
   <div class="reel"></div>
 </div>
 
-<!-- Windows95 エラーダイアログ -->
-<div class="win95-error">
-  <div class="win95-title">Error</div>
+<!-- Win95ウィンドウ（ドラッグ可能） -->
+<div id="win95Window" class="win95-window">
+  <div id="win95Title" class="win95-title">VHS Control Panel</div>
   <div class="win95-body">
-    VHS rewind detected.<br>
-    System time has been reset to 1995.
-    <br><br>
+    VHS rewind distortion enabled.<br>
+    Infinite grid floor active.<br><br>
     <a class="win95-btn">OK</a>
   </div>
 </div>
 
-<!-- Windows95 タスクバー＋スタートメニュー（常時表示版） -->
+<!-- Win95タスクバー＋スタートメニュー -->
 <div class="taskbar">
-  <div class="start-btn">スタート</div>
+  <div class="start-btn" onclick="toggleMenu()">スタート</div>
 </div>
-<div class="start-menu">
+<div id="startMenu" class="start-menu">
   Vaporwave<br>
   VHS Player<br>
   Retro Settings<br>
+  System 1995<br>
 </div>
 
-<!-- VHSの巻き戻し音（サンプル。好みのmp3に差し替え可） -->
+<!-- VHS巻き戻し音（好みで差し替え可） -->
 <audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+  <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
 </audio>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById("startMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+/* ドラッグ可能なWin95ウィンドウ */
+(function() {
+  const win = document.getElementById("win95Window");
+  const title = document.getElementById("win95Title");
+  let offsetX = 0, offsetY = 0, dragging = false;
+
+  title.addEventListener("mousedown", function(e) {
+    dragging = true;
+    offsetX = e.clientX - win.offsetLeft;
+    offsetY = e.clientY - win.offsetTop;
+  });
+
+  document.addEventListener("mousemove", function(e) {
+    if (!dragging) return;
+    win.style.left = (e.clientX - offsetX) + "px";
+    win.style.top  = (e.clientY - offsetY) + "px";
+  });
+
+  document.addEventListener("mouseup", function() {
+    dragging = false;
+  });
+})();
+</script>
 
 </body>
 </html>
