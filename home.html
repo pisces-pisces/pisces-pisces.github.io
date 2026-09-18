@@ -202,3 +202,48 @@
       </div>
 
       <div class="input-row">
+        <input id="answer" type="text" placeholder="3文字のコードを入力（例：ABC）">
+        <button onclick="checkAnswer()">送信</button>
+      </div>
+
+      <div id="result" class="result"></div>
+    </div>
+
+    <div class="footer">
+      次のミッションを追加して、<span>ステージ制</span>の謎解きサイトにも発展させられます。
+    </div>
+  </div>
+
+  <script>
+    // 正解は：Moon, Jupiter, Saturn → MJS
+    const CORRECT = "MJS";
+
+    function normalize(text) {
+      return text
+        .trim()
+        .toUpperCase()
+        .replace(/[\s　]/g, "");
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answer");
+      const result = document.getElementById("result");
+      const value = normalize(input.value);
+
+      if (!value) {
+        result.textContent = "まずは何か入力してみてください。";
+        result.className = "result ng";
+        return;
+      }
+
+      if (value === CORRECT) {
+        result.textContent = "正解！オリオン号は次の星系へジャンプします。";
+        result.className = "result ok";
+      } else {
+        result.textContent = "残念…もう一度、天体の英語名をよく考えてみよう。";
+        result.className = "result ng";
+      }
+    }
+  </script>
+</body>
+</html>
