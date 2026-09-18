@@ -2,19 +2,32 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>pisces-pisces // cosmic portal</title>
+<title>pisces-pisces // cosmic vaporwave portal</title>
 
 <style>
   body {
     font-family: "MS PGothic", "Courier New", monospace;
-    background-image: url("https://example.com/space-vaporwave-bg.jpg");
+    background-image: url("space-bg.jpg"); /* 好きな宇宙画像に差し替え */
     background-size: cover;
     background-attachment: fixed;
     color: #ffffff;
     text-shadow: 0 0 3px #000;
   }
 
-  /* 2000年代の謎の枠 */
+  /* vaporwaveグリッド */
+  body::before {
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(#222 1px, transparent 1px),
+      linear-gradient(90deg, #222 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity:0.2;
+    pointer-events:none;
+  }
+
+  /* メイン枠 */
   .wrapper {
     width: 900px;
     margin: 20px auto;
@@ -24,7 +37,7 @@
     box-shadow: 0 0 20px #f0f;
   }
 
-  /* タイトルロゴ（謎の発光＋GIFっぽい） */
+  /* タイトル */
   .logo {
     font-size: 32px;
     text-align: center;
@@ -41,7 +54,7 @@
     margin-bottom: 20px;
   }
 
-  /* 2000年代の謎ボタン */
+  /* 2000年代ボタン */
   .nav {
     text-align: center;
     margin-bottom: 20px;
@@ -60,35 +73,56 @@
     border-style: inset;
   }
 
-  /* ポータル枠 */
-  .portal-box {
+  /* セクション枠 */
+  .section {
     border: 2px solid #fff;
     padding: 15px;
     margin-bottom: 20px;
     background: rgba(10,0,40,0.6);
   }
 
-  .portal-title {
+  .section-title {
     font-size: 18px;
     margin-bottom: 10px;
     color: #ffddff;
   }
 
-  .portal-item {
-    border: 1px solid #99f;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: rgba(0,0,0,0.4);
+  /* BBS */
+  .bbs-post {
+    border: 1px solid #669;
+    padding: 8px;
+    margin-bottom: 8px;
+    background: #000040;
   }
-
-  .portal-item h3 {
-    margin: 0 0 4px 0;
-    color: #ffe0ff;
+  .bbs-meta {
+    font-size: 11px;
+    color: #a0a0ff;
+    margin-bottom: 4px;
   }
-
-  .portal-item p {
+  .bbs-body {
     font-size: 12px;
     line-height: 1.4;
+  }
+
+  /* リンク集 */
+  .links-section h2 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #ffccff;
+  }
+  .links-section ul {
+    font-size: 12px;
+    list-style: none;
+    padding-left: 0;
+  }
+  .links-section li {
+    margin-bottom: 4px;
+  }
+
+  /* 星アイコン */
+  .star {
+    color: #ffcc00;
+    margin-right: 4px;
   }
 
   /* フッター */
@@ -104,8 +138,17 @@
 <body>
 <div class="wrapper">
 
+  <!-- GIFバナー -->
+  <div style="text-align:center; margin:10px 0;">
+    <img src="welcome.gif" alt="WELCOME" width="300" height="60">
+  </div>
+
   <div class="logo">pisces-pisces</div>
-  <div class="sub">2000年代の宇宙系謎ポータルサイト（意味は後から考える）</div>
+  <div class="sub">2000年代 × 宇宙 × vaporwave × 個人サイトの謎ポータル</div>
+
+  <div style="text-align:center; margin:10px 0;">
+    <img src="under_construction.gif" alt="UNDER CONSTRUCTION" width="300" height="60">
+  </div>
 
   <div class="nav">
     <a href="#">HOME</a>
@@ -115,27 +158,65 @@
     <a href="#">ABOUT</a>
   </div>
 
-  <div class="portal-box">
-    <div class="portal-title">PORTAL INDEX // 不明な入口一覧</div>
+  <!-- アクセスカウンター -->
+  <div style="text-align:right; font-family:'Courier New'; font-size:12px; color:#fff;">
+    VISITORS:
+    <span style="background:#000; padding:2px 4px; border:1px solid #666; color:#0f0;">
+      000123
+    </span>
+  </div>
 
-    <div class="portal-item">
-      <h3>Nebula-404</h3>
-      <p>正しいリンクが存在するらしいが、誰も正しさを定義していない。</p>
+  <!-- キラキラGIF -->
+  <div style="text-align:center; margin:10px 0;">
+    <img src="sparkle.gif" alt="★" width="120" height="40">
+  </div>
+
+  <!-- BBS -->
+  <div class="section">
+    <div class="section-title">BBS // 宇宙チャットルーム</div>
+
+    <div class="bbs-post">
+      <div class="bbs-meta">No.1 名前：nebula　投稿日：20XX/02/29 25:61</div>
+      <div class="bbs-body">この掲示板、時間の概念がちょっとおかしい気がします。</div>
     </div>
 
-    <div class="portal-item">
-      <h3>Vaporwave Observatory</h3>
-      <p>眺めるだけで謎を解いた気分になれる観測所。検証はされていない。</p>
+    <div class="bbs-post">
+      <div class="bbs-meta">No.2 名前：satellite　投稿日：unknown</div>
+      <div class="bbs-body">ここに書き込むこと自体が謎解きらしいです。</div>
     </div>
 
-    <div class="portal-item">
-      <h3>Black Hole Chatroom</h3>
-      <p>入室したメッセージが同じ形で出てくるとは限らない。</p>
+    <form style="margin-top:10px; font-size:12px;">
+      名前：<input type="text" name="name" size="20"><br>
+      コメント：<br>
+      <textarea name="body" cols="60" rows="4"></textarea><br>
+      <input type="submit" value="書き込む（たぶん）">
+    </form>
+  </div>
+
+  <!-- リンク集 -->
+  <div class="section">
+    <div class="section-title">LINKS // リンク集</div>
+
+    <div class="links-section">
+      <h2>◆ 個人サイト風リンク集</h2>
+      <ul>
+        <li><span class="star">★</span><a href="#" style="color:#c0ffe0;">星屑日記</a> - 宇宙っぽい日記サイト</li>
+        <li><span class="star">★</span><a href="#" style="color:#c0ffe0;">深夜0時の部屋</a> - テキスト系謎サイト</li>
+      </ul>
     </div>
 
-    <div class="portal-item">
-      <h3>Retro Satellite Archive</h3>
-      <p>古いHTML片やバナー素材が意味ありげに並ぶ倉庫。</p>
+    <div class="links-section">
+      <h2>◆ 素材屋リンク集</h2>
+      <ul>
+        <li><span class="star">★</span><a href="#" style="color:#ff9dfc;">★SPACE素材屋★</a> - 星アイコン・宇宙背景など</li>
+      </ul>
+    </div>
+
+    <div class="links-section">
+      <h2>◆ 宇宙系リンク集</h2>
+      <ul>
+        <li><span class="star">★</span><a href="#" style="color:#00ffff;">cosmic-lab</a> - 宇宙ネタまとめサイト</li>
+      </ul>
     </div>
   </div>
 
